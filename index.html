@@ -12,25 +12,30 @@
     />
     <style>
       :root {
-        --bg: #0b0f17;
-        --bg-2: #111827;
-        --surface: #111827;
-        --border: #1f2937;
+        --bg: #121416;
+        --bg-2: #1c1f23;
+        --surface: #191c20;
+        --border: #34383e;
         --text: #f3f4f6;
-        --text-dim: #a1aab8;
-        --accent: #10b981;
-        --accent-2: #10b981;
-        --gradient: #10b981;
+        --text-dim: #a7abb2;
+        --accent: #b7bdc6;
+        --accent-2: #b7bdc6;
+        --accent-ink: #17191c;
+        --gradient: #b7bdc6;
         --shadow: none;
       }
       [data-theme="light"] {
-        --bg: #f7f7fb;
+        --bg: #f2f3f3;
         --bg-2: #ffffff;
         --surface: rgba(0, 0, 0, 0.02);
         --border: rgba(0, 0, 0, 0.08);
-        --text: #1a1a2e;
-        --text-dim: #5a5a72;
-        --shadow: 0 20px 60px rgba(124, 92, 255, 0.1);
+        --text: #202226;
+        --text-dim: #5c6066;
+        --accent: #51565e;
+        --accent-2: #51565e;
+        --accent-ink: #ffffff;
+        --gradient: #51565e;
+        --shadow: none;
       }
       * {
         margin: 0;
@@ -65,44 +70,19 @@
       button {
         cursor: pointer;
       }
+      a:active,
+      button:active {
+        opacity: 0.78;
+      }
+      button:disabled,
+      input:disabled,
+      textarea:disabled {
+        cursor: not-allowed;
+        opacity: 0.55;
+      }
       :focus-visible {
         outline: 2px solid var(--accent);
         outline-offset: 4px;
-      }
-
-      /* ===== Custom Cursor ===== */
-      .cursor-dot,
-      .cursor-ring {
-        position: fixed;
-        pointer-events: none;
-        border-radius: 50%;
-        z-index: 9999;
-        transition:
-          transform 0.15s ease-out,
-          width 0.3s,
-          height 0.3s;
-      }
-      .cursor-dot {
-        width: 6px;
-        height: 6px;
-        background: var(--accent);
-      }
-      .cursor-ring {
-        width: 36px;
-        height: 36px;
-        border: 1.5px solid var(--accent);
-        transform: translate(-15px, -15px);
-      }
-      .cursor-ring.hover {
-        width: 60px;
-        height: 60px;
-        background: rgba(124, 92, 255, 0.1);
-      }
-      @media (max-width: 768px) {
-        .cursor-dot,
-        .cursor-ring {
-          display: none;
-        }
       }
 
       /* ===== Loading Screen ===== */
@@ -158,7 +138,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        background: rgba(11, 15, 23, 0.96);
+        background: var(--bg);
         border-bottom: 1px solid var(--border);
         transition: all 0.3s;
       }
@@ -227,13 +207,17 @@
         color: var(--text);
         font-size: 1.5rem;
         cursor: pointer;
+        width: 44px;
+        height: 44px;
+        align-items: center;
+        justify-content: center;
       }
       @media (max-width: 768px) {
         .nav-links {
           display: none;
         }
         .menu-btn {
-          display: block;
+          display: flex;
         }
         .nav-links.open {
           display: flex;
@@ -259,15 +243,16 @@
       }
       .hero-bg {
         position: absolute;
-        inset: 0;
+        inset: -48px 0;
         z-index: 0;
-        background: var(--bg);
+        background: var(--bg-2);
+        transform: translate3d(0, var(--parallax-y, 0), 0);
       }
-      .hero-bg::before {
-        content: "";
+      .hero-bg .topography-container {
         position: absolute;
         inset: 0;
-        content: none;
+        opacity: 0.42;
+        pointer-events: none;
       }
       .hero-content {
         position: relative;
@@ -287,9 +272,9 @@
         display: none;
         width: 8px;
         height: 8px;
-        background: #4ade80;
+        background: var(--accent);
         border-radius: 50%;
-        box-shadow: 0 0 10px #4ade80;
+        box-shadow: 0 0 10px var(--accent);
         animation: pulse 2s infinite;
       }
       @keyframes pulse {
@@ -338,7 +323,7 @@
       }
       .btn-primary {
         background: var(--gradient);
-        color: white;
+        color: var(--accent-ink);
         box-shadow: none;
       }
       .btn-primary:hover {
@@ -371,21 +356,6 @@
         background: var(--border);
         position: relative;
         overflow: hidden;
-      }
-      .scroll-indicator .line::after {
-        content: "";
-        position: absolute;
-        top: -40px;
-        left: 0;
-        width: 100%;
-        height: 40px;
-        background: var(--gradient);
-        animation: scrollLine 2s infinite;
-      }
-      @keyframes scrollLine {
-        100% {
-          top: 40px;
-        }
       }
 
       /* ===== Sections ===== */
@@ -736,7 +706,6 @@
       }
       .form-group input:focus,
       .form-group textarea:focus {
-        outline: none;
         border-color: var(--accent);
       }
       .form-group textarea {
@@ -752,9 +721,9 @@
       }
       .form-status.success {
         display: block;
-        background: rgba(74, 222, 128, 0.1);
-        color: #4ade80;
-        border: 1px solid rgba(74, 222, 128, 0.3);
+        background: rgba(183, 189, 198, 0.08);
+        color: var(--text);
+        border: 1px solid var(--border);
       }
       .social-links {
         display: flex;
@@ -921,9 +890,9 @@
         border: 1px solid rgba(248, 113, 113, 0.3);
       }
       .form-status.success {
-        background: rgba(16, 185, 129, 0.1);
-        color: #a7f3d0;
-        border-color: rgba(16, 185, 129, 0.3);
+        background: rgba(183, 189, 198, 0.08);
+        color: var(--text);
+        border-color: var(--border);
       }
       .btn {
         min-height: 44px;
@@ -933,7 +902,7 @@
       .filter-btn.active,
       .filter-btn:hover {
         background: var(--accent);
-        color: #052e25;
+        color: var(--accent-ink);
       }
       .filter-btn {
         min-height: 44px;
@@ -981,9 +950,6 @@
     </style>
   </head>
   <body>
-    <div class="cursor-dot" aria-hidden="true"></div>
-    <div class="cursor-ring" aria-hidden="true"></div>
-
     <header>
       <!-- Navigation -->
       <nav id="nav">
@@ -1020,7 +986,7 @@
     <main>
       <!-- Hero -->
       <section class="hero" id="home">
-        <div class="hero-bg"></div>
+        <div class="hero-bg" id="hero-bg-root" aria-hidden="true"></div>
         <div class="hero-content">
           <div class="hero-tag">
             Software Engineering <span aria-hidden="true">/</span> AppSec
@@ -1499,6 +1465,27 @@
         .querySelectorAll(".reveal, .timeline-item")
         .forEach((el) => observer.observe(el));
 
+      // ===== Hero Scroll Parallax =====
+      if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        const hero = document.querySelector(".hero");
+        const heroBg = hero.querySelector(".hero-bg");
+        let parallaxFrame = 0;
+        function updateHeroParallax() {
+          if (parallaxFrame) return;
+          parallaxFrame = requestAnimationFrame(() => {
+            parallaxFrame = 0;
+            const distance = Math.max(-hero.getBoundingClientRect().top, 0);
+            const offset = -Math.min(distance * 0.1, 48);
+            heroBg.style.setProperty("--parallax-y", `${offset}px`);
+          });
+        }
+        window.addEventListener("scroll", updateHeroParallax, {
+          passive: true,
+        });
+        window.addEventListener("resize", updateHeroParallax);
+        updateHeroParallax();
+      }
+
       // ===== Project Filter =====
       document.querySelectorAll(".filter-btn").forEach((btn) => {
         btn.addEventListener("click", () => {
@@ -1549,42 +1536,7 @@
           formStatus.classList.add("error");
         }
       });
-
-      const desktopMotion = window.matchMedia(
-        "(hover: hover) and (prefers-reduced-motion: no-preference)",
-      );
-      if (desktopMotion.matches) {
-        const dot = document.querySelector(".cursor-dot");
-        const ring = document.querySelector(".cursor-ring");
-        let mouseX = 0,
-          mouseY = 0,
-          ringX = 0,
-          ringY = 0;
-        document.addEventListener("mousemove", (event) => {
-          mouseX = event.clientX;
-          mouseY = event.clientY;
-          dot.style.left = `${mouseX}px`;
-          dot.style.top = `${mouseY}px`;
-          document.querySelector(".hero-bg").style.transform =
-            `translate(${(mouseX / innerWidth - 0.5) * 8}px, ${(mouseY / innerHeight - 0.5) * 8}px)`;
-        });
-        function animateRing() {
-          ringX += (mouseX - ringX) * 0.15;
-          ringY += (mouseY - ringY) * 0.15;
-          ring.style.left = `${ringX}px`;
-          ring.style.top = `${ringY}px`;
-          requestAnimationFrame(animateRing);
-        }
-        animateRing();
-        document.querySelectorAll("a, button").forEach((element) => {
-          element.addEventListener("mouseenter", () =>
-            ring.classList.add("hover"),
-          );
-          element.addEventListener("mouseleave", () =>
-            ring.classList.remove("hover"),
-          );
-        });
-      }
     </script>
+    <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
